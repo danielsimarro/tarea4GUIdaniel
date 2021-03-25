@@ -62,76 +62,79 @@ public class PanelPrincipal extends JPanel implements ActionListener {
         if (o instanceof JButton) {
 //            System.out.println(((JButton) o).getText());
             JButton boton = (JButton) o;
-            areaTexto.setText(((JButton) o).getText());
-
-            String resultado = "";
 
             switch (boton.getText()) {
                 case "0":
-                    resultado+="0";
+                    areaTexto.setText(areaTexto.getText() + boton.getText());
                     break;
                 case "1":
-                    resultado+="1";
+                    areaTexto.setText(areaTexto.getText() + boton.getText());
                     break;
                 case "2":
-                    resultado+="2";
+                    areaTexto.setText(areaTexto.getText() + boton.getText());
                     break;
                 case "3":
-                    resultado+="3";
+                    areaTexto.setText(areaTexto.getText() + boton.getText());
                     break;
                 case "4":
-                    resultado+="4";
+                    areaTexto.setText(areaTexto.getText() + boton.getText());
                     break;
                 case "5":
-                    resultado+="5";
+                    areaTexto.setText(areaTexto.getText() + boton.getText());
                     break;
                 case "6":
-                    resultado+="6";
+                    areaTexto.setText(areaTexto.getText() + boton.getText());
                     break;
                 case "7":
-                    resultado+="7";
+                    areaTexto.setText(areaTexto.getText() + boton.getText());
                     break;
                 case "8":
-                    resultado+="8";
+                    areaTexto.setText(areaTexto.getText() + boton.getText());
                     break;
                 case "9":
-                    resultado+="9";
+                    areaTexto.setText(areaTexto.getText() + boton.getText());
                     break;
                 case "+":
-                    resultado+="+";
+                    areaTexto.setText(areaTexto.getText() + boton.getText());
                     break;
                 case "-":
-                    resultado+="-";
+                    areaTexto.setText(areaTexto.getText() + boton.getText());
                     break;
                 case "/":
-                    resultado+="/";
+                    areaTexto.setText(areaTexto.getText() + boton.getText());
                     break;
                 case "*":
-                    resultado+="*";
+                    areaTexto.setText(areaTexto.getText() + boton.getText());
                     break;
                 case "=":
-                    
-                areaTexto.setText(resultado);
-                    
+
+                    String resultado = realizarOperacion(areaTexto.getText());
+
+                    areaTexto.setText(resultado);
+
+                    //Volvemos a habilitar las los operadores
+                    for (int i = 10; i < 14; i++) {
+                        this.botonera.grupoBotones[i].setEnabled(true);
+                    }
+
                     break;
                 case "C":
-                    resultado+="C";
-                    resultado = "0";
+                    areaTexto.setText(" ");
                     break;
             }
-            
-            String ultimoCaracter = "";
-            String operador = "";
-            
-            if(resultado.length()== 1){
-                ultimoCaracter = resultado;
-            }else{
-                ultimoCaracter=resultado.substring(resultado.length()-1);
+
+            String ultimoCaracter = " ";
+            String operador = " ";
+
+            if (areaTexto.getText().length() == 1) {
+                ultimoCaracter = areaTexto.getText();
+            } else {
+                ultimoCaracter = areaTexto.getText().substring(areaTexto.getText().length() - 1);
             }
-            
-            if(ultimoCaracter.equals("+")|| ultimoCaracter.equals("-")||ultimoCaracter.equals("/")||
-                    ultimoCaracter.equals("*")){
-                for(int i =10; i<14;i++){
+
+            if (ultimoCaracter.equals("+") || ultimoCaracter.equals("-") || ultimoCaracter.equals("/")
+                    || ultimoCaracter.equals("*")) {
+                for (int i = 10; i < 14; i++) {
                     this.botonera.grupoBotones[i].setEnabled(false);
                     operador = ultimoCaracter;
                 }
@@ -142,4 +145,102 @@ public class PanelPrincipal extends JPanel implements ActionListener {
         // Desabilitar botones setEnable (false)
     }
 
+    private static String realizarOperacion(String operacion) {
+
+        String operador = "";
+        int posicion = 0;
+
+        if (operacion.contains("+")) {
+            operador = "+";
+            posicion = operacion.indexOf("+");
+        } else if (operacion.contains("-")) {
+            operador = "-";
+        } else if (operacion.contains("*")) {
+            operador = "*";
+            posicion = operacion.indexOf("*");
+        } else if (operacion.contains("/")) {
+            operador = "/";
+        }
+
+        String[] parts = new String[2];
+
+        double resultadoFinalNumero = 0;
+
+        double resultadoUno = 0;
+        double resultadoDos = 0;
+
+        switch (operador) {
+            case "+":
+
+                resultadoUno = Double.parseDouble(primeraParte(operacion, posicion));
+                resultadoDos = Double.parseDouble(segundaParte(operacion, posicion));
+
+                resultadoFinalNumero = resultadoUno + resultadoDos;
+
+                break;
+            case "-":
+                parts = operacion.split("-");
+
+                resultadoUno = Double.parseDouble(parts[0]);
+                resultadoDos = Double.parseDouble(parts[1]);
+
+                resultadoFinalNumero = resultadoUno - resultadoDos;
+                break;
+            case "*":
+                resultadoUno = Double.parseDouble(primeraParte(operacion, posicion));
+                resultadoDos = Double.parseDouble(segundaParte(operacion, posicion));
+
+                resultadoFinalNumero = resultadoUno * resultadoDos;
+                break;
+            case "/":
+                parts = operacion.split("/");
+
+                resultadoUno = Double.parseDouble(parts[0]);
+                resultadoDos = Double.parseDouble(parts[1]);
+
+                resultadoFinalNumero = resultadoUno / resultadoDos;
+                break;
+        }
+
+        String resultadoFinal = Double.toString(resultadoFinalNumero);
+
+        return resultadoFinal;
+
+    }
+
+    //Metodo para obtener la parte de la izquierda de la operacion hasta el +
+    private static String primeraParte(String parteUno, int posicion) {
+
+        String valor = "";
+
+        if (posicion == 1) {
+            valor = parteUno.substring(0,1);
+        } else {
+            valor = parteUno.substring(0, posicion);
+        }
+        return valor;
+    }
+
+    //Metodo para obtener la parte de la derecha de la operacion hasta el +
+    private static String segundaParte(String parteDos, int posicion) {
+        
+        String valor = "";
+
+        valor = parteDos.substring(posicion + 1, parteDos.length());
+
+        return valor;
+    }
+
+    public static void main(String[] args) {
+        String resultado = realizarOperacion("10+1");
+
+        System.out.println(resultado);
+
+        String string = "123-654321";
+        String[] parts = string.split("-");
+        String part1 = parts[0]; // 123
+        String part2 = parts[1]; // 654321
+
+        System.out.println(part1);
+    }
 }
