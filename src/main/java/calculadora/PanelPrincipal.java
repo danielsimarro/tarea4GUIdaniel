@@ -60,9 +60,10 @@ public class PanelPrincipal extends JPanel implements ActionListener {
         Object o = ae.getSource();
         // Si es un botón 
         if (o instanceof JButton) {
-//            System.out.println(((JButton) o).getText());
+            //Creamos un boton donde almacenaremo el objeto o el cual le realizaremos un casting
             JButton boton = (JButton) o;
 
+            //Comprobamos con switch que boton se ha pulsado
             switch (boton.getText()) {
                 case "0":
                     areaTexto.setText(areaTexto.getText() + boton.getText());
@@ -111,30 +112,36 @@ public class PanelPrincipal extends JPanel implements ActionListener {
                     break;
                 case "=":
 
+                    //En resultado se almacena la operacion resuelta que nos devuelve el metodo realizarOperacion
                     String resultado = realizarOperacion(areaTexto.getText());
 
+                    //Mostramos ese resultado de la operacion en elñ area de texto de la calculadora
                     areaTexto.setText(resultado);
 
-                    //Volvemos a habilitar las los operadores
+                    //Volvemos a habilitar los operadores
                     for (int i = 10; i < 14; i++) {
                         this.botonera.grupoBotones[i].setEnabled(true);
                     }
 
                     break;
                 case "C":
+                    //Cuando pulse sobre C se borra lo que hay en el area de texto
                     areaTexto.setText(" ");
                     break;
             }
 
+            
             String ultimoCaracter = " ";
             String operador = " ";
 
+            //Con esto lo que hacemos es gusradar cual a sido el ultimo caracter que a pulsado
             if (areaTexto.getText().length() == 1) {
                 ultimoCaracter = areaTexto.getText();
             } else {
                 ultimoCaracter = areaTexto.getText().substring(areaTexto.getText().length() - 1);
             }
 
+            //Aqui comprobamos si el ultimo caracter es un operador y lo desabilitamos en tal caso
             if (ultimoCaracter.equals("+") || ultimoCaracter.equals("-") || ultimoCaracter.equals("/")
                     || ultimoCaracter.equals("*")) {
                 for (int i = 10; i < 14; i++) {
@@ -152,6 +159,7 @@ public class PanelPrincipal extends JPanel implements ActionListener {
         String operador = "";
         int posicion = 0;
 
+        //Comprobamos si contiene un operador y lo almacenamos
         if (operacion.contains("+")) {
             operador = "+";
             posicion = operacion.indexOf("+");
@@ -171,6 +179,7 @@ public class PanelPrincipal extends JPanel implements ActionListener {
         double resultadoUno = 0;
         double resultadoDos = 0;
 
+        //Se pude utilizar spliot en '/' y '-' en los demas se utilizan metodos aparte
         switch (operador) {
             case "+":
 
@@ -204,8 +213,13 @@ public class PanelPrincipal extends JPanel implements ActionListener {
                 break;
         }
 
-        String resultadoFinal = Double.toString(resultadoFinalNumero);
+        String resultadoFinal = operacion;
 
+        //Con esto controlamos que si no se ha pulsado ningun operador devuelva el mismo String que hemos recibido
+        if(operador!=""){
+            resultadoFinal = Double.toString(resultadoFinalNumero);
+        }
+        
         return resultadoFinal;
 
     }
