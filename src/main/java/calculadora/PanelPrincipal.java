@@ -94,6 +94,9 @@ public class PanelPrincipal extends JPanel implements ActionListener {
                 case "9":
                     areaTexto.setText(areaTexto.getText() + boton.getText());
                     break;
+                case ".":
+                    areaTexto.setText(areaTexto.getText() + boton.getText());
+                    break;
                 case "+":
                     areaTexto.setText(areaTexto.getText() + boton.getText());
                     break;
@@ -141,10 +144,9 @@ public class PanelPrincipal extends JPanel implements ActionListener {
             }
         }
 
-        // RESTO DEL CÓDIGO DE LA LÓGICA DE LA CALCULADORA
-        // Desabilitar botones setEnable (false)
     }
 
+    //Metodo que realiza las operaciones que le pasamos como string
     private static String realizarOperacion(String operacion) {
 
         String operador = "";
@@ -208,13 +210,14 @@ public class PanelPrincipal extends JPanel implements ActionListener {
 
     }
 
+    //Estos metodos solo se utilizan en el '+' y '*' ta que el split nos los reconoce 
     //Metodo para obtener la parte de la izquierda de la operacion hasta el +
     private static String primeraParte(String parteUno, int posicion) {
 
         String valor = "";
 
         if (posicion == 1) {
-            valor = parteUno.substring(0,1);
+            valor = parteUno.substring(0, 1);
         } else {
             valor = parteUno.substring(0, posicion);
         }
@@ -223,7 +226,7 @@ public class PanelPrincipal extends JPanel implements ActionListener {
 
     //Metodo para obtener la parte de la derecha de la operacion hasta el +
     private static String segundaParte(String parteDos, int posicion) {
-        
+
         String valor = "";
 
         valor = parteDos.substring(posicion + 1, parteDos.length());
@@ -231,16 +234,4 @@ public class PanelPrincipal extends JPanel implements ActionListener {
         return valor;
     }
 
-    public static void main(String[] args) {
-        String resultado = realizarOperacion("10+1");
-
-        System.out.println(resultado);
-
-        String string = "123-654321";
-        String[] parts = string.split("-");
-        String part1 = parts[0]; // 123
-        String part2 = parts[1]; // 654321
-
-        System.out.println(part1);
-    }
 }

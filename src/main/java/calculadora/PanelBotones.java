@@ -17,7 +17,7 @@ public class PanelBotones extends JPanel {
 
     // Números del 0 al 9 y seis botones más para
     // suma, resta, multiplicacion, división, resultado y limpiar
-    JButton[] grupoBotones = new JButton[16];
+    JButton[] grupoBotones = new JButton[17];
 
     public PanelBotones() {
         initComponents();
@@ -35,9 +35,11 @@ public class PanelBotones extends JPanel {
         grupoBotones[13] = new JButton("/");
         grupoBotones[14] = new JButton("=");
         grupoBotones[15] = new JButton("C");
+        grupoBotones[16] = new JButton(".");
+        
 
 // Establecemos el layout
-        this.setLayout(new GridLayout(4, 4));
+        this.setLayout(new GridLayout(3,6 ));
 
         for (JButton boton : grupoBotones) {
             this.add(boton);
